@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useEffect} from "react";
+import socketIOClient from "socket.io-client";
+import {io} from "socket.io-client";
+const ENDPOINT = "https://mst-full-stack-dev-test.herokuapp.com/";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [response, setResponse] = useState("");
+
+  useEffect(() => {
+    const socket = socketIOClient(ENDPOINT);
+    socket.on("data-update", data=> {
+      setResponse(data);
+      console.log(socket.id);
+      console.log(data);
+    });
+}, []);
+
+return(
+  <p>
+    its {Response}
+  </p>
+);
+
 }
 
 export default App;
